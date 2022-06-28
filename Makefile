@@ -6,7 +6,7 @@ LINUX=-lrt -lpthread -lm -D_GNU_SOURCE
 all: m clean
 
 m: 
-	$(GXX)  main.cpp sort.cpp -o main #$(FLAGS)
+	$(GXX)  main.cpp sort.cpp data.cpp -o main #$(FLAGS)
 	./main
 
 clean:

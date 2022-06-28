@@ -1,6 +1,3 @@
-
-#include <ctime>
-
 #include "sort.h"
 
 int main() {
@@ -8,10 +5,12 @@ int main() {
   // clock_t start, end;
   // one.createFile(100000);
   // one.openFile("100000.txt");
-  one.generateData(10000);
+  one.generateData(100);
   // auto start = std::chrono::high_resolution_clock::now();
-  one.bubbleSort();
-  one.choiseSort();
+  // one.bubbleSort();
+  // one.choiseSort();
+  // one.insertionSort();
+  one.quickSort();
   // auto end = std::chrono::high_resolution_clock::now();
   // std::chrono::duration<double> runtime = end - start;
   // one.printData();

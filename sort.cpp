@@ -1,76 +1,5 @@
 #include "sort.h"
 
-void Sort::createFile(int size) {
-  std::string fileName = std::to_string(size) + ".txt";
-  std::ofstream file;
-  file.open(fileName);
-  for (int i = 0; i < size; i++) {
-    file << randomizer(size) << " ";
-    if (i % 20 == 0 && i > 1) {
-      file << "\n";
-    }
-  }
-  file.close();
-}
-
-void Sort::openFile(std::string fileName) {
-  std::ifstream file;
-  file.open(fileName);
-  std::string line;
-  while (getline(file, line)) {
-    parsingLine(line);
-  }
-  file.close();
-}
-
-void Sort::parsingLine(std::string oneLine) {
-  std::string::iterator iter(oneLine.begin());
-  std::string buffer;
-  while (iter != oneLine.end()) {
-    if (isdigit(*iter)) {
-      buffer.push_back(*iter);
-    } else {
-      data.push_back(atoi(buffer.c_str()));
-      buffer.clear();
-    }
-    ++iter;
-  }
-}
-
-int Sort::randomizer(int size) {
-  std::random_device random;
-  std::default_random_engine engine(random());
-  // std::uniform_int_distribution<int> res(0, std::numeric_limits<int>::max());
-  std::uniform_int_distribution<int> res(0, size);
-  return res(engine);
-}
-
-void Sort::printData() {
-  std::cout << data.size() << std::endl;
-  for (size_t i = 0; i < data.size(); i++) {
-    std::cout << data[i] << " ";
-    if (i % 20 == 0 && i > 1) {
-      std::cout << "\n";
-    }
-  }
-}
-
-void Sort::printSortetData(const std::vector<int>& vec) {
-  for (size_t i = 0; i < vec.size(); i++) {
-    std::cout << vec[i] << " ";
-    if (i % 20 == 0 && i > 1) {
-      std::cout << "\n";
-    }
-  }
-}
-
-void Sort::generateData(int size) {
-  Simpletimer timer;
-  for (int i = 0; i < size; i++) {
-    data.push_back(randomizer(size));
-  }
-}
-
 void Sort::bubbleSort() {
   Simpletimer timer;
   std::vector<int> temp = data;
@@ -106,4 +35,49 @@ size_t Sort::choiseHelper(const std::vector<int>& vec, size_t pos) {
     }
   }
   return smallerPos;
+}
+
+void Sort::insertionSort() {
+  Simpletimer timer;
+  std::vector<int> temp = data;
+  for (size_t i = 1; i < temp.size(); i++) {
+    size_t j = i - 1;
+    while (j >= 0 && temp[j] > temp[j + 1]) {
+      std::swap(temp[j], temp[j + 1]);
+      j--;
+    }
+  }
+  // printSortetData(temp);
+}
+
+void Sort::quickSort() {
+  Simpletimer timer;
+  std::vector<int> temp = data;
+  quickSortHelper(temp, 0, temp.size() - 1);
+  printSortetData(temp);
+}
+
+void Sort::quickSortHelper(std::vector<int>& vec, size_t start, size_t end) {
+  if (start < end) {
+    size_t centr = findCentralElement(vec, start, end);
+    quickSortHelper(vec, start, centr - 1);
+    quickSortHelper(vec, centr + 1, end);
+  }
+}
+
+size_t Sort::findCentralElement(std::vector<int>& vec, size_t start, size_t end) {
+  size_t i = start;
+  while (i < end) {
+    if (vec[i] > vec[end] && i == (end - 1)) {
+      std::swap(vec[i], vec[end]);
+      end--;
+    } else if (vec[i] > vec[end]) {
+      std::swap(vec[end - 1], vec[end]);
+      std::swap(vec[i], vec[end]);
+      end--;
+    } else {
+      i++;
+    }
+  }
+  return end;
 }
