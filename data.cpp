@@ -46,7 +46,7 @@ int Data::randomizer(int size) {
 }
 
 void Data::printData() {
-  std::cout << data.size() << std::endl;
+  // std::cout << data.size() << std::endl;
   for (size_t i = 0; i < data.size(); i++) {
     std::cout << data[i] << " ";
     if (i % 20 == 0 && i > 1) {

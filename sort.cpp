@@ -1,7 +1,7 @@
 #include "sort.h"
 
 void Sort::bubbleSort() {
-  Simpletimer timer;
+  Simpletimer timer("bubbleSort");
   std::vector<int> temp = data;
   bool changes = true;
   size_t sortEnd = temp.size();
@@ -18,7 +18,7 @@ void Sort::bubbleSort() {
 }
 
 void Sort::choiseSort() {
-  Simpletimer timer;
+  Simpletimer timer("choiseSort");
   std::vector<int> temp = data;
   for (size_t i = 0; i < temp.size(); i++) {
     size_t smallerPos = choiseHelper(temp, i);
@@ -38,7 +38,7 @@ size_t Sort::choiseHelper(const std::vector<int>& vec, size_t pos) {
 }
 
 void Sort::insertionSort() {
-  Simpletimer timer;
+  Simpletimer timer("insertionSort");
   std::vector<int> temp = data;
   for (size_t i = 1; i < temp.size(); i++) {
     size_t j = i - 1;
@@ -51,33 +51,79 @@ void Sort::insertionSort() {
 }
 
 void Sort::quickSort() {
-  Simpletimer timer;
+  Simpletimer timer("quickSort");
   std::vector<int> temp = data;
   quickSortHelper(temp, 0, temp.size() - 1);
-  printSortetData(temp);
+  // printSortetData(temp);
 }
 
 void Sort::quickSortHelper(std::vector<int>& vec, size_t start, size_t end) {
-  if (start < end) {
-    size_t centr = findCentralElement(vec, start, end);
-    quickSortHelper(vec, start, centr - 1);
-    quickSortHelper(vec, centr + 1, end);
-  }
+  if (start >= end) return;
+  int mid = findCentralElement(vec, start, end);
+  quickSortHelper(vec, start, mid);
+  quickSortHelper(vec, mid + 1, end);
 }
 
 size_t Sort::findCentralElement(std::vector<int>& vec, size_t start, size_t end) {
+  int pivot = vec[start];
+  size_t left = start + 1;
+  size_t right = end;
+  while (true) {
+    while (left < right && vec[right] >= pivot) right--;
+    while (left < right && vec[left] < pivot) left++;
+    if (left == right) break;
+    std::swap(vec[left], vec[right]);
+  }
+  if (vec[left] >= pivot) return start;
+  vec[start] = vec[left];
+  vec[left] = pivot;
+  return left;
+}
+
+void Sort::mergeSort() {
+  Simpletimer timer("mergeSort");
+  std::vector<int> temp = data;
+  mergeSortHelper(temp, 0, temp.size() - 1);
+  // printSortetData(temp);
+}
+
+void Sort::mergeSortHelper(std::vector<int>& vec, size_t start, size_t end) {
+  size_t mid = (start + end) / 2;
+  if (start < end) {
+    mergeSortHelper(vec, start, mid);
+    mergeSortHelper(vec, mid + 1, end);
+    mergeVector(vec, start, end, mid);
+  }
+}
+
+void Sort::mergeVector(std::vector<int>& vec, size_t start, size_t end, size_t mid) {
+  std::vector<int> mergedVec;
+  mergedVec.resize(vec.size());
   size_t i = start;
-  while (i < end) {
-    if (vec[i] > vec[end] && i == (end - 1)) {
-      std::swap(vec[i], vec[end]);
-      end--;
-    } else if (vec[i] > vec[end]) {
-      std::swap(vec[end - 1], vec[end]);
-      std::swap(vec[i], vec[end]);
-      end--;
-    } else {
+  size_t j = mid + 1;
+  size_t k = start;
+  while (i <= mid && j <= end) {
+    if (vec[i] < vec[j]) {
+      mergedVec[k] = vec[i];
+      k++;
       i++;
+    } else {
+      mergedVec[k] = vec[j];
+      k++;
+      j++;
     }
   }
-  return end;
+  while (i <= mid) {
+    mergedVec[k] = vec[i];
+    k++;
+    i++;
+  }
+  while (j <= end) {
+    mergedVec[k] = vec[j];
+    k++;
+    j++;
+  }
+  for (i = start; i < k; i++) {
+    vec[i] = mergedVec[i];
+  }
 }
