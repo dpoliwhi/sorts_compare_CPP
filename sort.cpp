@@ -127,3 +127,18 @@ void Sort::mergeVector(std::vector<int>& vec, size_t start, size_t end, size_t m
     vec[i] = mergedVec[i];
   }
 }
+
+void Sort::shellSort() {
+  Simpletimer timer("shellSort");
+  std::vector<int> temp = data;
+  for (int step = temp.size() / 2; step > 0; step /= 2) {
+    for (int i = step; i < temp.size(); i++) {
+      int j = i;
+      while (j >= step && temp[j - step] > temp[i]) {
+        std::swap(temp[j], temp[j - step]);
+        j -= step;
+      }
+    }
+  }
+  // printSortetData(temp);
+}

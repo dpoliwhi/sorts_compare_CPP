@@ -16,6 +16,7 @@ class Sort : public Data {
   void insertionSort();
   void quickSort();
   void mergeSort();
+  void shellSort();
 };
 
 class Simpletimer {
