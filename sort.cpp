@@ -45,7 +45,7 @@ std::vector<int> Sort::insertionSort() {
   std::vector<int> temp = data;
   for (size_t i = 1; i < temp.size(); i++) {
     size_t j = i - 1;
-    while (j >= 0 && temp[j] > temp[j + 1]) {
+    while (temp[j] > temp[j + 1]) {
       std::swap(temp[j], temp[j + 1]);
       j--;
     }
@@ -138,7 +138,7 @@ std::vector<int> Sort::shellSort() {
   Simpletimer timer("shellSort");
   std::vector<int> temp = data;
   for (int step = temp.size() / 2; step > 0; step /= 2) {
-    for (int i = step; i < temp.size(); i++) {
+    for (int i = step; i < (int)temp.size(); i++) {
       int j = i;
       while (j >= step && temp[j - step] > temp[i]) {
         std::swap(temp[j], temp[j - step]);
