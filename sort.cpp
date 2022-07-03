@@ -1,6 +1,6 @@
 #include "sort.h"
 
-void Sort::bubbleSort() {
+std::vector<int> Sort::bubbleSort() {
   Simpletimer timer("bubbleSort");
   std::vector<int> temp = data;
   bool changes = true;
@@ -15,16 +15,19 @@ void Sort::bubbleSort() {
     }
     sortEnd--;
   }
+  timeOfSort.insert(timer.getTime());
+  return temp;
 }
 
-void Sort::choiseSort() {
+std::vector<int> Sort::choiseSort() {
   Simpletimer timer("choiseSort");
   std::vector<int> temp = data;
   for (size_t i = 0; i < temp.size(); i++) {
     size_t smallerPos = choiseHelper(temp, i);
     std::swap(temp[i], temp[smallerPos]);
   }
-  // printSortetData(temp);
+  timeOfSort.insert(timer.getTime());
+  return temp;
 }
 
 size_t Sort::choiseHelper(const std::vector<int>& vec, size_t pos) {
@@ -37,7 +40,7 @@ size_t Sort::choiseHelper(const std::vector<int>& vec, size_t pos) {
   return smallerPos;
 }
 
-void Sort::insertionSort() {
+std::vector<int> Sort::insertionSort() {
   Simpletimer timer("insertionSort");
   std::vector<int> temp = data;
   for (size_t i = 1; i < temp.size(); i++) {
@@ -47,14 +50,16 @@ void Sort::insertionSort() {
       j--;
     }
   }
-  // printSortetData(temp);
+  timeOfSort.insert(timer.getTime());
+  return temp;
 }
 
-void Sort::quickSort() {
+std::vector<int> Sort::quickSort() {
   Simpletimer timer("quickSort");
   std::vector<int> temp = data;
   quickSortHelper(temp, 0, temp.size() - 1);
-  // printSortetData(temp);
+  timeOfSort.insert(timer.getTime());
+  return temp;
 }
 
 void Sort::quickSortHelper(std::vector<int>& vec, size_t start, size_t end) {
@@ -80,11 +85,12 @@ size_t Sort::findCentralElement(std::vector<int>& vec, size_t start, size_t end)
   return left;
 }
 
-void Sort::mergeSort() {
+std::vector<int> Sort::mergeSort() {
   Simpletimer timer("mergeSort");
   std::vector<int> temp = data;
   mergeSortHelper(temp, 0, temp.size() - 1);
-  // printSortetData(temp);
+  timeOfSort.insert(timer.getTime());
+  return temp;
 }
 
 void Sort::mergeSortHelper(std::vector<int>& vec, size_t start, size_t end) {
@@ -128,7 +134,7 @@ void Sort::mergeVector(std::vector<int>& vec, size_t start, size_t end, size_t m
   }
 }
 
-void Sort::shellSort() {
+std::vector<int> Sort::shellSort() {
   Simpletimer timer("shellSort");
   std::vector<int> temp = data;
   for (int step = temp.size() / 2; step > 0; step /= 2) {
@@ -140,5 +146,40 @@ void Sort::shellSort() {
       }
     }
   }
-  // printSortetData(temp);
+  timeOfSort.insert(timer.getTime());
+  return temp;
+}
+
+std::vector<int> Sort::heapSort() {
+  Simpletimer timer("heapSort");
+  std::vector<int> temp = data;
+  heapSortHelper(temp, temp.size());
+  timeOfSort.insert(timer.getTime());
+  return temp;
+}
+
+void Sort::heapSortHelper(std::vector<int>& vec, size_t n) {
+  for (int i = n / 2 - 1; i >= 0; i--) {
+    heapify(vec, n, i);
+  }
+  for (int i = n - 1; i >= 0; i--) {
+    std::swap(vec[0], vec[i]);
+    heapify(vec, i, 0);
+  }
+}
+
+void Sort::heapify(std::vector<int>& vec, size_t n, size_t root) {
+  size_t largest = root;
+  size_t l = 2 * root + 1;
+  size_t r = 2 * root + 2;
+  if (vec[l] > vec[largest] && l < n) {
+    largest = l;
+  }
+  if (vec[r] > vec[largest] && r < n) {
+    largest = r;
+  }
+  if (largest != root) {
+    std::swap(vec[root], vec[largest]);
+    heapify(vec, n, largest);
+  }
 }
