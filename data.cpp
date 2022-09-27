@@ -1,7 +1,7 @@
 #include "data.h"
 
 void Data::createFile(int size) {
-  std::string fileName = std::to_string(size) + ".txt";
+  std::string fileName = "materials/" + std::to_string(size) + ".txt";
   std::ofstream file;
   file.open(fileName);
   for (int i = 0; i < size; i++) {
@@ -13,9 +13,35 @@ void Data::createFile(int size) {
   file.close();
 }
 
+void Data::sortetDataToFile(const std::vector<int>& vec) {
+  std::string fileName = "materials/" + std::to_string(vec.size()) + "Sorted.txt";
+  std::ofstream file;
+  file.open(fileName);
+  for (size_t i = 0; i < vec.size(); i++) {
+    file << vec[i] << " ";
+    if (i % 20 == 0 && i > 1) {
+      file << "\n";
+    }
+  }
+  file.close();
+}
+
+void Data::sortetDataToFileReverse(const std::vector<int>& vec) {
+  std::string fileName = "materials/" + std::to_string(vec.size()) + "SR.txt";
+  std::ofstream file;
+  file.open(fileName);
+  for (size_t i = vec.size() - 1; i > 0; i--) {
+    file << vec[i] << " ";
+    if (i % 20 == 0) {
+      file << "\n";
+    }
+  }
+  file.close();
+}
+
 void Data::openFile(std::string fileName) {
   std::ifstream file;
-  file.open(fileName);
+  file.open("materials/" + fileName + ".txt");
   std::string line;
   while (getline(file, line)) {
     parsingLine(line);
@@ -68,4 +94,8 @@ void Data::generateData(int size) {
   for (int i = 0; i < size; i++) {
     data.push_back(randomizer(size));
   }
+}
+
+void Data::clearData() {
+  data.clear();
 }

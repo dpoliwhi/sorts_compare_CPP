@@ -27,7 +27,7 @@ class Sort : public Data {
 class Simpletimer {
  private:
   std::string sortName;
-  std::chrono::time_point<std::chrono::system_clock> start, end;
+  std::chrono::high_resolution_clock::time_point start, end;
   std::chrono::duration<double> runtime;
 
  public:

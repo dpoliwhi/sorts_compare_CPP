@@ -16,4 +16,7 @@ class Data {
   void generateData(int size);
   void printData();
   void printSortetData(const std::vector<int>& vec);
+  void sortetDataToFile(const std::vector<int>& vec);
+  void sortetDataToFileReverse(const std::vector<int>& vec);
+  void clearData();
 };
